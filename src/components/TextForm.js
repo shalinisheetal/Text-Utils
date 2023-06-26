@@ -22,18 +22,6 @@ function TextForm(props) {
   const handleOnChange = (event) => {
     setText(event.target.value);
   };
-  const getTheme = () => {
-    let color = "black",
-      backgroundColor = "white";
-    if (props.mode === "dark") {
-      color = "white";
-      backgroundColor = "black";
-    } else if (props.mode === "pastel") {
-      color = "8294C4";
-      backgroundColor = "FFEAD2";
-    }
-    return { color, backgroundColor };
-  };
   const [text, setText] = useState("");
 
   return (
@@ -41,7 +29,7 @@ function TextForm(props) {
       <div
         className="container"
         style={{
-          color: `${getTheme().color}`,
+          color: props.mode === "dark" ? "white" : "black",
         }}
       >
         <h1>{props.heading}</h1>
@@ -53,8 +41,8 @@ function TextForm(props) {
             value={text}
             onChange={handleOnChange}
             style={{
-              backgroundColor: `${getTheme().backgroundColor}`,
-              color: `${getTheme().color}`,
+              backgroundColor: props.mode === "dark" ? "black" : "white",
+              color: props.mode === "dark" ? "white" : "black",
             }}
           ></textarea>
         </div>
@@ -71,7 +59,7 @@ function TextForm(props) {
       <div
         className="container my-3"
         style={{
-          color: `${getTheme().color}`,
+          color: props.mode === "dark" ? "white" : "black",
         }}
       >
         <h2>Your text summary</h2>
