@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { jsPDF } from "jspdf";
 
 function TextForm(props) {
   const handleUpClick = () => {
@@ -9,6 +10,18 @@ function TextForm(props) {
     let lowerText = text.toLowerCase();
     setText(lowerText);
   };
+  const handleRemove = () => {
+    let newText = text.replace(/\s+/g, " ").trim();
+    setText(newText);
+  };
+  const handleClear = () => {
+    setText("");
+  };
+  const handleCopy = () => {
+    let textArea = document.getElementById("myBox");
+    textArea.select();
+    document.execCommand("copy");
+  };
   const handleSpeech = () => {
     const message = document.getElementById("myBox").value;
     const Speech = new SpeechSynthesisUtterance();
@@ -17,6 +30,12 @@ function TextForm(props) {
     window.speechSynthesis.speak(Speech);
 
     props.showAlert("Keep volume up.", "warning");
+  };
+  const handlePdfClick = () => {
+    // eslint-disable-next-line no-undef
+    var doc = new jsPDF();
+    doc.text(text, 10, 10);
+    doc.save("Text-Utils-DOC.pdf");
   };
 
   const handleOnChange = (event) => {
@@ -32,12 +51,12 @@ function TextForm(props) {
           color: props.mode === "dark" ? "white" : "black",
         }}
       >
-        <h1>{props.heading}</h1>
+        <h1 className="mb-2">{props.heading}</h1>
         <div className="mb-3">
           <textarea
             className="form-control"
             id="myBox"
-            rows="12"
+            rows="10"
             value={text}
             onChange={handleOnChange}
             style={{
@@ -46,14 +65,56 @@ function TextForm(props) {
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUpClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleUpClick}
+        >
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLowClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleLowClick}
+        >
           Convert to Lowercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleSpeech}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleRemove}
+        >
+          Remove white spaces
+        </button>
+
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleCopy}
+        >
+          Copy text
+        </button>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-2 my-1"
+          onClick={handleSpeech}
+        >
           Speak
+        </button>
+
+        <button
+          disabled={text.length === 0}
+          className="btn btn-success mx-2 my-1"
+          onClick={handlePdfClick}
+        >
+          Convert to PDF
+        </button>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-danger mx-2 my-1"
+          onClick={handleClear}
+        >
+          Clear text
         </button>
       </div>
       <div
@@ -63,7 +124,7 @@ function TextForm(props) {
         }}
       >
         <h2>Your text summary</h2>
-        <p>{text.trim().length} characters</p>
+        <p>{text.replace(/\n/g, "").trim().length} characters</p>
         <p>
           {
             text
@@ -73,12 +134,12 @@ function TextForm(props) {
           }{" "}
           words
         </p>
-        <h2>Preview</h2>
         <p>
-          {text.length > 0
-            ? text
-            : "Enter something in textbox to preview it here."}
+          {0.008 * text.split(" ").filter((value) => value !== "").length}{" "}
+          minutes to read.
         </p>
+        <h2>Preview</h2>
+        <p>{text.length > 0 ? text : "Nothing to preview."}</p>
       </div>
     </>
   );
