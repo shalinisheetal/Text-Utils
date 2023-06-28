@@ -18,9 +18,8 @@ function TextForm(props) {
     setText("");
   };
   const handleCopy = () => {
-    let textArea = document.getElementById("myBox");
-    textArea.select();
-    document.execCommand("copy");
+    navigator.clipboard.writeText(text);
+    props.showAlert("Copied to clipboard!", "success");
   };
   const handleSpeech = () => {
     const message = document.getElementById("myBox").value;
@@ -36,6 +35,7 @@ function TextForm(props) {
     var doc = new jsPDF();
     doc.text(text, 10, 10);
     doc.save("Text-Utils-DOC.pdf");
+    props.showAlert("PDF downloaded successfully.", "success");
   };
 
   const handleOnChange = (event) => {

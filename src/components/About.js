@@ -1,10 +1,6 @@
 import React from "react";
 
 export default function About(props) {
-  //   const [myStyle, setMyStyle] = useState({
-  //     color: "black",
-  //     backgroundColor: "white",
-  //   });
   let myStyle = {
     color: props.mode === "dark" ? "white" : "black",
     backgroundColor: props.mode === "dark" ? "black" : "white",
@@ -38,7 +34,7 @@ export default function About(props) {
               Here, you can effortlessly analyze and manipulate your texts with
               a variety of powerful tools. Convert your text to uppercase or
               lowercase with a simple click, enabling you to easily transform
-              your content to match your specific needs. But that's not all – we
+              your content to match your specific needs. But that's not all - we
               go beyond simple case conversion. You can also convert your text
               to speech, allowing you to listen to your words being spoken out
               loud. Whether you're looking to enhance your writing, conduct

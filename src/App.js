@@ -19,15 +19,22 @@ function App() {
       setAlert(null);
     }, 1500);
   };
-  const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-      document.body.style.backgroundColor = "black";
-      showAlert("Dark mode has been enabled.", "success");
+
+  const toggleMode = (cls) => {
+    if (cls) {
+      document.body.className = "";
+      document.body.classList.add("bg-" + cls);
     } else {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-      showAlert("Light mode has been enabled.", "success");
+      document.body.className = "";
+      if (mode === "light") {
+        setMode("dark");
+        document.body.style.backgroundColor = "black";
+        showAlert("Dark mode has been enabled.", "success");
+      } else {
+        setMode("light");
+        document.body.style.backgroundColor = "white";
+        showAlert("Light mode has been enabled.", "success");
+      }
     }
   };
   return (
